@@ -1,14 +1,14 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
     background-color: #f0f0f0;
     margin: 0;
-    padding: 0;
 }
 
 header {
     background-color: #6200ea;
     color: white;
+    text-align: center;
     padding: 20px;
 }
 
@@ -19,4 +19,86 @@ main {
 img {
     width: 100px;
     height: auto;
+}
+
+/* Authentication Container */
+#auth-container {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#auth-container input {
+    width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+#auth-container button {
+    padding: 10px 20px;
+    margin: 10px 0;
+}
+
+#auth-container a {
+    color: #6200ea;
+    text-decoration: none;
+}
+
+/* AI Selection */
+#ai-selection {
+    text-align: center;
+}
+
+.ai-option {
+    padding: 15px 30px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Chat Container */
+#chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#messages {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+.message {
+    margin: 10px 0;
+}
+
+.user-message {
+    text-align: right;
+}
+
+.ai-message {
+    text-align: left;
+}
+
+#chat-form {
+    display: flex;
+}
+
+#user-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#chat-form button {
+    padding: 10px;
+    font-size: 16px;
+}
+
+#logout-button {
+    margin-top: 10px;
+    padding: 10px 20px;
 }
