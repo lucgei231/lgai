@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGAI</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -14,7 +13,43 @@
         <img src="lgai.png" alt="LGAI Icon">
     </header>
     <main>
-        <div id="ai-output">Loading AI...</div>
+        <!-- Authentication Container -->
+        <div id="auth-container">
+            <!-- Sign Up Form -->
+            <div id="signup-form">
+                <h2>Sign Up</h2>
+                <input type="text" id="signup-username" placeholder="Username" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <button id="signup-button">Sign Up</button>
+                <p>Already have an account? <a href="#" id="show-login">Log In</a></p>
+            </div>
+            <!-- Login Form -->
+            <div id="login-form" style="display: none;">
+                <h2>Log In</h2>
+                <input type="text" id="login-username" placeholder="Username" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button id="login-button">Log In</button>
+                <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+            </div>
+        </div>
+
+        <!-- AI Type Selection -->
+        <div id="ai-selection" style="display: none;">
+            <h2>Select Your AI Experience</h2>
+            <button class="ai-option" data-ai="coding-helper">Coding Helper</button>
+            <button class="ai-option" data-ai="game-ai">Game AI</button>
+            <button class="ai-option" data-ai="companion">Companion</button>
+        </div>
+
+        <!-- Chat Container -->
+        <div id="chat-container" style="display: none;">
+            <div id="messages"></div>
+            <form id="chat-form">
+                <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off" required>
+                <button type="submit">Send</button>
+            </form>
+            <button id="logout-button">Log Out</button>
+        </div>
     </main>
     <script src="script.js"></script>
 </body>
