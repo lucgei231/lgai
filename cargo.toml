@@ -1,7 +1,0 @@
-[package]
-name = "lgai"
-version = "0.1.0"
-edition = "2018"
-
-[dependencies]
-rocket = "0.5.0-rc.1" # You can update to the latest version of Rocket
