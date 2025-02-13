@@ -1,6 +1,6 @@
 // script.js
 
-// Simulated database using localStorage
+// Load users from localStorage or initialize an empty object
 let users = JSON.parse(localStorage.getItem('lgai-users')) || {};
 
 // Current logged-in user
@@ -168,11 +168,11 @@ function scrollToBottom() {
 // Coding Helper AI
 function codingHelperAI(userMessage) {
     if (userMessage.toLowerCase().includes('html')) {
-        return 'HTML is the standard markup language for creating web pages.';
+        return 'HTML is the standard markup language for creating web pages. Do you need help with tags or structure?';
     } else if (userMessage.toLowerCase().includes('css')) {
-        return 'CSS is used to style HTML elements and make web pages look attractive.';
+        return 'CSS styles your HTML elements. Are you working with layouts or animations?';
     } else if (userMessage.toLowerCase().includes('javascript')) {
-        return 'JavaScript adds interactivity to web pages.';
+        return 'JavaScript brings interactivity to your web pages. Let me know if you need help with functions or events.';
     } else {
         return 'Can you tell me more about your coding question?';
     }
@@ -182,31 +182,58 @@ function codingHelperAI(userMessage) {
 let gameState = {};
 
 function gameAI(userMessage) {
-    if (!gameState.started) {
-        gameState = { started: true, step: 1 };
-        return 'Welcome to the adventure! You find yourself at a crossroads. Do you go left or right?';
-    } else if (gameState.step === 1) {
+    if (!gameState[currentUser.username]) {
+        gameState[currentUser.username] = { step: 1 };
+        return 'Welcome to the adventure! You stand at a crossroads. Do you choose the left path or the right path?';
+    }
+
+    let game = gameState[currentUser.username];
+    let response = '';
+
+    if (game.step === 1) {
         if (userMessage.toLowerCase().includes('left')) {
-            gameState.step = 2;
-            return 'You encounter a friendly dragon. Do you talk to it or run away?';
+            game.step = 2;
+            response = 'You encounter a friendly dragon. Do you talk to it or walk away?';
         } else if (userMessage.toLowerCase().includes('right')) {
-            gameState.step = 3;
-            return 'You find a treasure chest. Do you open it or ignore it?';
+            game.step = 3;
+            response = 'You find a hidden treasure chest. Do you open it or leave it?';
         } else {
-            return 'Please choose to go left or right.';
+            response = 'Please choose either the left path or the right path.';
+        }
+    } else if (game.step === 2) {
+        if (userMessage.toLowerCase().includes('talk')) {
+            game.step = 4;
+            response = 'The dragon shares wisdom with you. You feel enlightened!';
+        } else if (userMessage.toLowerCase().includes('walk away')) {
+            game.step = 4;
+            response = 'You continue your journey and find a peaceful meadow.';
+        } else {
+            response = 'Do you want to talk to the dragon or walk away?';
+        }
+    } else if (game.step === 3) {
+        if (userMessage.toLowerCase().includes('open')) {
+            game.step = 4;
+            response = 'The chest is filled with gold! You are now wealthy.';
+        } else if (userMessage.toLowerCase().includes('leave')) {
+            game.step = 4;
+            response = 'You walk away, feeling that some things are better left untouched.';
+        } else {
+            response = 'Will you open the chest or leave it?';
         }
     } else {
-        return 'Your adventure continues... (This is a simplified example.)';
+        response = 'Your adventure has concluded. Refresh the page to start a new journey!';
     }
+
+    return response;
 }
 
 // Companion AI
 function companionAI(userMessage) {
     const responses = [
-        'That sounds interesting, tell me more!',
-        'I\'m here to listen.',
+        'That sounds interesting! Tell me more.',
+        'I\'m here to listen whenever you need.',
         'How does that make you feel?',
-        'What else would you like to discuss?',
+        'What else is on your mind?',
     ];
     return responses[Math.floor(Math.random() * responses.length)];
 }
