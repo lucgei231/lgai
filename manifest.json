@@ -1,1 +1,16 @@
-
+{
+  "name": "LGAI",
+  "short_name": "LGAI",
+  "description": "An advanced AI web application.",
+  "icons": [
+    {
+      "src": "webapp.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",  // Ensures the web app opens in standalone mode
+  "background_color": "#ffffff",
+  "theme_color": "#6200ea"
+}
