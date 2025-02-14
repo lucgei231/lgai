@@ -1,114 +1,104 @@
 // script.js
 
-let users = JSON.parse(localStorage.getItem('lgai-users')) || {};
-
-// Current logged-in user
-let currentUser = null;
+// Current AI type
+let currentAIType = null;
 
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if a user session exists
-    const sessionUser = localStorage.getItem('lgai-currentUser');
-    if (sessionUser) {
-        currentUser = JSON.parse(sessionUser);
-        if (currentUser.aiType) {
-            loadChatInterface();
-        } else {
-            showAISelection();
-        }
-    } else {
-        showAuthContainer();
-    }
-});
-
-// Show Authentication Container
-function showAuthContainer() {
-    document.getElementById('auth-container').style.display = 'block';
-    document.getElementById('ai-selection').style.display = 'none';
-    document.getElementById('chat-container').style.display = 'none';
-}
-
-// Toggle between Sign Up and Login forms
-document.getElementById('show-login').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('signup-form').style.display = 'none';
-    document.getElementById('login-form').style.display = 'block';
-});
-
-document.getElementById('show-signup').addEventListener('click', (e) => {
-    e.preventDefault();
-    document.getElementById('login-form').style.display = 'none';
-    document.getElementById('signup-form').style.display = 'block';
-});
-
-// Sign Up
-document.getElementById('signup-button').addEventListener('click', () => {
-    const username = document.getElementById('signup-username').value.trim();
-    const password = document.getElementById('signup-password').value;
-    if (username === '' || password === '') {
-        alert('Please enter a username and password.');
-        return;
-    }
-    if (users[username]) {
-        alert('Username already exists.');
-        return;
-    }
-    // Save user
-    users[username] = { password: password };
-    localStorage.setItem('lgai-users', JSON.stringify(users));
-    // Log in user
-    currentUser = { username: username };
-    localStorage.setItem('lgai-currentUser', JSON.stringify(currentUser));
     showAISelection();
-});
-
-// Log In
-document.getElementById('login-button').addEventListener('click', () => {
-    const username = document.getElementById('login-username').value.trim();
-    const password = document.getElementById('login-password').value;
-    if (username === '' || password === '') {
-        alert('Please enter your username and password.');
-        return;
-    }
-    if (!users[username] || users[username].password !== password) {
-        alert('Invalid username or password.');
-        return;
-    }
-    // Log in user
-    currentUser = { username: username, aiType: users[username].aiType };
-    localStorage.setItem('lgai-currentUser', JSON.stringify(currentUser));
-    if (currentUser.aiType) {
-        loadChatInterface();
-    } else {
-        showAISelection();
-    }
 });
 
 // Show AI Selection
 function showAISelection() {
-    document.getElementById('auth-container').style.display = 'none';
     document.getElementById('ai-selection').style.display = 'block';
+    document.getElementById('chat-container').style.display = 'none';
 }
 
 // AI Type Selection
 document.querySelectorAll('.ai-option').forEach(button => {
     button.addEventListener('click', () => {
-        const aiType = button.getAttribute('data-ai');
-        currentUser.aiType = aiType;
-        users[currentUser.username].aiType = aiType;
-        localStorage.setItem('lgai-users', JSON.stringify(users));
-        localStorage.setItem('lgai-currentUser', JSON.stringify(currentUser));
+        currentAIType = button.getAttribute('data-ai');
         loadChatInterface();
     });
 });
 
 // Load Chat Interface
 function loadChatInterface() {
-    document.getElementById('auth-container').style.display = 'none';
     document.getElementById('ai-selection').style.display = 'none';
     document.getElementById('chat-container').style.display = 'block';
     initializeAI();
 }
 
-// Log Out
-document.getElementById('logout-button
+// Initialize AI
+function initializeAI() {
+    document.getElementById('messages').innerHTML = '';
+    appendMessage('LGAI', `Hello! How can I assist you today?`, 'ai-message');
+}
+
+// Chat Form Submission
+document.getElementById('chat-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const userMessage = document.getElementById('user-input').value.trim();
+    if (userMessage === '') return;
+
+    appendMessage('You', userMessage, 'user-message');
+    document.getElementById('user-input').value = '';
+    const aiResponse = getAIResponse(userMessage);
+    appendMessage('LGAI', aiResponse, 'ai-message');
+    scrollToBottom();
+});
+
+// Get AI Response Based on AI Type
+function getAIResponse(userMessage) {
+    let aiResponse = '';
+    if (currentAIType === 'coding-helper') {
+        aiResponse = codingHelperResponse(userMessage);
+    } else if (currentAIType === 'game-ai') {
+        aiResponse = gameAIResponse(userMessage);
+    } else if (currentAIType === 'companion') {
+        aiResponse = companionResponse(userMessage);
+    }
+    return aiResponse;
+}
+
+// Coding Helper Responses
+function codingHelperResponse(message) {
+    if (message.includes('html')) {
+        return 'HTML is the standard markup language for creating web pages. Here is an example of a basic HTML structure:\n\n```html\n<!DOCTYPE html>\n<html>\n<head>\n<title>Page Title</title>\n</head>\n<body>\n<h1>This is a Heading</h1>\n<p>This is a paragraph.</p>\n</body>\n</html>\n```';
+    } else if (message.includes('css')) {
+        return 'CSS is used to style and layout web pages. Here is an example of CSS styling:\n\n```css\nbody {\n  font-family: Arial, sans-serif;\n  background-color: #f0f0f0;\n}\n\nh1 {\n  color: #6200ea;\n}\n```';
+    } else if (message.includes('javascript')) {
+        return 'JavaScript adds interactivity to web pages. Here is an example of JavaScript code to change the content of an HTML element:\n\n```javascript\ndocument.getElementById("demo").innerHTML = "Hello JavaScript!";\n```';
+    } else {
+        return 'Can you provide more details about your coding question?';
+    }
+}
+
+// Game AI Responses
+function gameAIResponse(message) {
+    return 'Welcome to the adventure! Choose your path: forest or cave?';
+}
+
+// Companion Responses
+function companionResponse(message) {
+    const responses = [
+        'Tell me more about that.',
+        'How does that make you feel?',
+        'I see. What else is on your mind?',
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+}
+
+// Append Message to Chat
+function appendMessage(sender, message, className) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', className);
+    messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    document.getElementById('messages').appendChild(messageDiv);
+}
+
+// Scroll to Bottom of Chat
+function scrollToBottom() {
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
