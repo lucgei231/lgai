@@ -21,29 +21,6 @@ img {
     height: auto;
 }
 
-/* Authentication Container */
-#auth-container {
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#auth-container input {
-    width: 80%;
-    padding: 10px;
-    margin: 5px 0;
-}
-
-#auth-container button {
-    padding: 10px 20px;
-    margin: 10px 0;
-}
-
-#auth-container a {
-    color: #6200ea;
-    text-decoration: none;
-}
-
 /* AI Selection */
 #ai-selection {
     text-align: center;
@@ -96,9 +73,4 @@ img {
 #chat-form button {
     padding: 10px;
     font-size: 16px;
-}
-
-#logout-button {
-    margin-top: 10px;
-    padding: 10px 20px;
 }
