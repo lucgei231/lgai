@@ -1,26 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LGAI</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="webapp.png">
-    <!-- Ensure web app compatibility on iOS -->
-    <meta name="apple-mobile-web-app-capable" content="true">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="LGAI">
-    <meta name="theme-color" content="#6200ea">
-</head>
-<body>
-    <header>
-        <h1>Welcome to LGAI</h1>
-        <img src="lgai.png" alt="LGAI Icon">
-    </header>
-    <main>
-        <!-- Your content here -->
-    </main>
-    <script src="script.js"></script>
-</body>
-</html>
+{
+  "name": "LGAI",
+  "short_name": "LGAI",
+  "description": "An advanced AI web application.",
+  "icons": [
+    {
+      "src": "webapp.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6200ea"
+}
