@@ -2,6 +2,7 @@
 
 // Current AI type
 let currentAIType = null;
+let adventureState = {};
 
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -57,6 +58,8 @@ function getAIResponse(userMessage) {
         aiResponse = gameAIResponse(userMessage);
     } else if (currentAIType === 'companion') {
         aiResponse = companionResponse(userMessage);
+    } else if (currentAIType === 'choose-your-own-adventure') {
+        aiResponse = adventureResponse(userMessage);
     }
     return aiResponse;
 }
@@ -89,16 +92,39 @@ function companionResponse(message) {
     return responses[Math.floor(Math.random() * responses.length)];
 }
 
-// Append Message to Chat
-function appendMessage(sender, message, className) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', className);
-    messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
-    document.getElementById('messages').appendChild(messageDiv);
-}
+// Choose Your Own Adventure Responses
+function adventureResponse(message) {
+    if (!adventureState.step) {
+        adventureState.step = 1;
+        return 'You find yourself at the entrance of a mysterious forest. Do you enter the forest or turn back?';
+    }
 
-// Scroll to Bottom of Chat
-function scrollToBottom() {
-    const messagesDiv = document.getElementById('messages');
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
+    if (adventureState.step === 1) {
+        if (message.toLowerCase().includes('enter')) {
+            adventureState.step = 2;
+            return 'You step into the forest and hear the rustling of leaves. Do you investigate the sound or continue on the path?';
+        } else if (message.toLowerCase().includes('turn back')) {
+            adventureState.step = 'end';
+            return 'You decide it\'s safer to turn back. Adventure ends here. Refresh the page to start again.';
+        } else {
+            return 'Please choose to "enter" the forest or "turn back".';
+        }
+    }
+
+    if (adventureState.step === 2) {
+        if (message.toLowerCase().includes('investigate')) {
+            adventureState.step = 3;
+            return 'You find a hidden treasure chest! Do you open it or leave it?';
+        } else if (message.toLowerCase().includes('continue')) {
+            adventureState.step = 4;
+            return 'You come across a wise old man. Do you ask him for advice or ignore him?';
+        } else {
+            return 'Please choose to "investigate" the sound or "continue" on the path.';
+        }
+    }
+
+    if (adventureState.step === 3) {
+        if (message.toLowerCase().includes('open')) {
+            adventureState.step = 'end';
+            return 'You open the chest and find gold and jewels! You\'ve completed the adventure successfully. Refresh the page to start again.';
+        } else if (message.toLowerCase
